@@ -1,0 +1,16 @@
+import scrapy
+from scrapy.selector import Selector
+
+from nymag.items import nymagItem
+
+class nymagSpider(scrapy.Spider):
+	#name defines name of the spider
+	name = 'nymag'
+  #contains the base-URLs for the allowed domains for the spider to crawl.
+	allowed_domains = ['http://wwww.nymag.com']
+	#is a list of URLs for the spider to start crawling from. All subsequent URLs will start from the data that the spider downloads from the URLS in start_urls.
+	start_urls = ["http://nymag.com/thecut/2015/09/should-we-all-get-the-breast-cancer-gene-test.html"]
+
+	def parse(self, response):
+		for link in response.xpath("//div[@id = 'primary']/main/article//a[@data-track and @href]"):
+			print link.xpath("@href").extract()[0]
